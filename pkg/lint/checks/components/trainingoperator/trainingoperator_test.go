@@ -190,7 +190,7 @@ func TestTrainingOperatorDeprecationCheck_CanApply_Version36(t *testing.T) {
 	g.Expect(canApply).To(BeFalse())
 }
 
-func TestTrainingOperatorDeprecationCheck_CanApply_Version55(t *testing.T) {
+func TestTrainingOperatorDeprecationCheck_CanApply_Version35(t *testing.T) {
 	g := NewWithT(t)
 
 	target := testutil.NewTarget(t, testutil.TargetConfig{
