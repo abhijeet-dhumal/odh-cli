@@ -38,7 +38,7 @@ func NewNumProcPerNodeCheck() *NumProcPerNodeCheck {
 			CheckDescription: "Detects TrainJobs with a string numProcPerNode value that prevents " +
 				"the Trainer controller from starting after an OpenShift AI 3.6 upgrade",
 			CheckRemediation: "Delete TrainJobs with a string spec.trainer.numProcPerNode value before upgrading. " +
-				"The field is immutable; recreate them with a nil or numeric value after the upgrade.",
+				"The field is immutable. Consult the TrainJob owner before deletion; recreate the TrainJob after the upgrade, if desired, with a nil value, which is equivalent to auto.",
 		},
 	}
 }
@@ -99,7 +99,7 @@ func (c *NumProcPerNodeCheck) newNumProcPerNodeCondition(
 		conditionTypeNumProcPerNodeCompatible,
 		metav1.ConditionFalse,
 		check.WithReason(check.ReasonWorkloadsImpacted),
-		check.WithMessage("Found %d TrainJob(s) with a string spec.trainer.numProcPerNode value. Delete these TrainJobs before upgrading to OpenShift AI 3.6 or the Trainer controller will not start", len(req.Items)),
+		check.WithMessage("Found %d TrainJob(s) with a string spec.trainer.numProcPerNode value. These TrainJobs must be deleted before upgrading to OpenShift AI 3.6 or the Trainer controller will not start. Consult the TrainJob owner before deleting them.", len(req.Items)),
 		check.WithImpact(result.ImpactBlocking),
 		check.WithRemediation(c.CheckRemediation),
 	)}, nil
